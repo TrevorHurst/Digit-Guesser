@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+
+</head>
+<body>
+  <h1>Draw an image and save it to the server</h1>
+  {% if guess is defined %}
+  <h1>You Drew a {{ guess }} or you have bad handwriting</h1>
+  {% endif %}
+  <div>
+    <canvas id="canvas"></canvas>
+  </div>
+  <form method="POST" action="{{ url_for('submit') }}">
+    <input type="hidden" name="img_data" id="img_data">
+    <button type="submit">Guess</button>
+  </form>
+
+  <script>
+function setup() { 
+  createCanvas(280, 280);
+  background(0);
+  stroke(255);
+  smooth();
+} 
+
+function draw() { 
+
+  strokeWeight(10);
+  if(mouseIsPressed){
+   line(mouseX,mouseY,pmouseX,pmouseY) 
+  	}
+  
+}
+
+function mousePressed(){ // different function (not in the continuous draw loop) with a condition of pressing the mouse
+    // each time the mouse is pressed over these coordinates (the random rect), then the rect color will change color
+	if((mouseX > 0) && (mouseX < width) && (mouseY > height - 30) && (mouseY < height)){
+      stroke(c,75,100)
+		}
+}
+
+    function submitImage() {
+      var canvas = document.getElementById('defaultCanvas0');
+      var img_data = canvas.toDataURL('image/png');
+      document.getElementById('img_data').value = img_data;
+    }
+
+    document.querySelector('form').addEventListener('submit', submitImage);
+  </script>
+</body>
+</html>
